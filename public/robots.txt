@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pemdescibatu2001.online/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /backend/
+Disallow: /api/
+
+# Allow important pages
+Allow: /
+Allow: /berita/
+Allow: /layanan/
+Allow: /kontak/
+Allow: /data-desa/
+Allow: /profil-desa/
+Allow: /kebijakan-data/

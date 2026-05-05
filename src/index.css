@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   🎨 FONT CONSISTENCY
+   ========================================================= */
+
+/* Set default font family untuk konsistensi */
+body {
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Font weight consistency */
+.font-bold {
+  font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+/* Font consistency untuk komponen spesifik */
+nav, .navbar {
+  font-family: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  font-weight: 700;
+}
+
+p, span, div {
+  font-family: inherit;
+}
+
+/* Running text consistency */
+.animate-scroll {
+  font-family: inherit;
+  font-weight: 400;
+}
+
+/* =========================================================
+   ✨ ANIMASI & RESPONSIVE
+   ========================================================= */
+
+/* ✨ Animasi Fade In dari bawah */
+/* 🎬 Fade in up animation untuk smooth loading */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+/* 📱 Responsif di mobile */
+@media (max-width: 768px) {
+  .animate-fadeInUp {
+    animation-duration: 0.4s;
+  }
+}
+
+/* 🏃‍♂️ Running text (marquee) */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee2 {
+  0% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+.animate-marquee2 {
+  animation: marquee2 20s linear infinite;
+}
+
+/* 🏃‍♂️ Scroll animation untuk running text - Perfect Loop */
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+  will-change: transform;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* 📱 Responsif untuk mobile - lebih lambat */
+@media (max-width: 768px) {
+  .animate-scroll {
+    animation-duration: 25s;
+  }
+}
+
+/* 🎯 Pause animation saat hover */
+@media (hover: hover) {
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* ⚡ Faster animation untuk loading state */
+.animate-scroll.loading {
+  animation-duration: 8s;
+}
+
+/* 📱 Extra slow untuk mobile kecil */
+@media (max-width: 480px) {
+  .animate-scroll {
+    animation-duration: 25s;
+  }
+}
+
+/* 🚀 Ultra smooth untuk tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .animate-scroll {
+    animation-duration: 38s;
+  }
+}

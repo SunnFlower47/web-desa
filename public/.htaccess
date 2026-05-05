@@ -1,0 +1,102 @@
+# Apache configuration for React SPA routing - Optimized for mobile performance
+# Handles client-side routing for React applications
+
+# --------------------------
+# ✅ SPA Routing (React Router)
+# --------------------------
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+# --------------------------
+# ✅ Security Headers
+# --------------------------
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set X-Frame-Options "DENY"
+
+    # Strict Transport Security (HSTS) - Aktifkan untuk HTTPS
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Content Security Policy (CSP) - Dihapus karena sekarang di-handle oleh Laravel middleware
+    # Header always set Content-Security-Policy "..."
+</IfModule>
+
+# --------------------------
+# ✅ Caching - Optimized for mobile
+# --------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Images
+    ExpiresByType image/jpg "access plus 3 months"
+    ExpiresByType image/jpeg "access plus 3 months"
+    ExpiresByType image/gif "access plus 3 months"
+    ExpiresByType image/png "access plus 3 months"
+    ExpiresByType image/webp "access plus 3 months"
+    ExpiresByType image/svg+xml "access plus 3 months"
+
+    # CSS and JS
+    ExpiresByType text/css "access plus 3 months"
+    ExpiresByType application/javascript "access plus 3 months"
+    ExpiresByType text/javascript "access plus 3 months"
+
+    # Fonts
+    ExpiresByType font/woff "access plus 3 months"
+    ExpiresByType font/woff2 "access plus 3 months"
+    ExpiresByType application/font-woff "access plus 3 months"
+    ExpiresByType application/font-woff2 "access plus 3 months"
+
+    # HTML
+    ExpiresByType text/html "access plus 1 hour"
+
+    # Service Worker
+    <FilesMatch "sw\.js$">
+        ExpiresActive Off
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# --------------------------
+# ✅ Compression
+# --------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/woff
+    AddOutputFilterByType DEFLATE font/woff2
+</IfModule>
+
+# --------------------------
+# ✅ Sensitive File Protection
+# --------------------------
+
+# Allow manifest.json (for PWA)
+<Files "manifest.json">
+    Require all granted
+</Files>
+
+# Block other sensitive files
+<FilesMatch "^(?!manifest\.json$).*\.json$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(env|log|ini|conf)$">
+    Require all denied
+</FilesMatch>
+
+# --------------------------
+# ✅ Optional: Custom Error Pages
+# --------------------------
+# ErrorDocument 404 /index.html
+# ErrorDocument 500 /index.html
+# --------------------------

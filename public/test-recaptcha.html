@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>reCAPTCHA v3 Test</title>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 20px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>reCAPTCHA v3 Test</h1>
+    <p>Site Key: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI</p>
+
+    <button onclick="testRecaptcha()">Test reCAPTCHA v3</button>
+    <button onclick="testForm()">Test Form Submission</button>
+
+    <div id="result"></div>
+
+    <script>
+        function testRecaptcha() {
+            const siteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+
+            if (typeof grecaptcha === 'undefined') {
+                showResult('❌ reCAPTCHA script tidak loaded', 'error');
+                return;
+            }
+
+            showResult('⏳ Generating reCAPTCHA token...', 'info');
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute(siteKey, { action: 'test' }).then(function(token) {
+                    showResult(
+                        '✅ reCAPTCHA v3 AKTIF<br>' +
+                        'Token: ' + token.substring(0, 50) + '...<br>' +
+                        'Length: ' + token.length + ' characters<br>' +
+                        'Action: test',
+                        'success'
+                    );
+                }).catch(function(error) {
+                    showResult('❌ reCAPTCHA Error: ' + error.message, 'error');
+                });
+            });
+        }
+
+        function testForm() {
+            const siteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+
+            if (typeof grecaptcha === 'undefined') {
+                showResult('❌ reCAPTCHA script tidak loaded', 'error');
+                return;
+            }
+
+            showResult('⏳ Testing form submission...', 'info');
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute(siteKey, { action: 'contact' }).then(function(token) {
+                    // Simulate form submission
+                    const formData = {
+                        nama: 'Test User',
+                        email: 'test@example.com',
+                        pesan: 'Test message',
+                        recaptcha_token: token
+                    };
+
+                    showResult(
+                        '✅ Form Test Success<br>' +
+                        'Token: ' + token.substring(0, 50) + '...<br>' +
+                        'Action: contact<br>' +
+                        'Form Data: ' + JSON.stringify(formData, null, 2),
+                        'success'
+                    );
+                }).catch(function(error) {
+                    showResult('❌ Form Test Error: ' + error.message, 'error');
+                });
+            });
+        }
+
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = message;
+            resultDiv.className = 'result ' + type;
+        }
+
+        // Auto test on load
+        window.onload = function() {
+            setTimeout(function() {
+                showResult('🔄 Auto-testing reCAPTCHA...', 'info');
+                testRecaptcha();
+            }, 2000);
+        };
+    </script>
+</body>
+</html>

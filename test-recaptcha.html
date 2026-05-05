@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>reCAPTCHA v3 Test</title>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LcjgesrAAAAAI_uG_XUxbMOZIf7iUh7CcaKio4v"></script>
+</head>
+<body>
+    <h1>reCAPTCHA v3 Test</h1>
+    <button onclick="testRecaptcha()">Test reCAPTCHA</button>
+    <div id="result"></div>
+
+    <script>
+        function testRecaptcha() {
+            const siteKey = '6LcjgesrAAAAAI_uG_XUxbMOZIf7iUh7CcaKio4v';
+
+            if (typeof grecaptcha === 'undefined') {
+                document.getElementById('result').innerHTML = '❌ reCAPTCHA script tidak loaded';
+                return;
+            }
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute(siteKey, { action: 'test' }).then(function(token) {
+                    document.getElementById('result').innerHTML =
+                        '✅ reCAPTCHA v3 AKTIF<br>' +
+                        'Token: ' + token.substring(0, 50) + '...<br>' +
+                        'Length: ' + token.length + ' characters';
+                }).catch(function(error) {
+                    document.getElementById('result').innerHTML =
+                        '❌ reCAPTCHA Error: ' + error.message;
+                });
+            });
+        }
+
+        // Auto test on load
+        window.onload = function() {
+            setTimeout(testRecaptcha, 2000);
+        };
+    </script>
+</body>
+</html>
